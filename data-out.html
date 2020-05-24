@@ -1,0 +1,39 @@
+<html>
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.css">
+  <head>
+    <title>
+      data for {{ title }}
+    </title>
+  </head>
+  <body>
+    <div class='container'>
+      <section class='section'>
+        <h1 class='title has-text-centered'>data for {{ title }}</h1>
+      </section>
+      <section class='columns is-centered section'>
+        <div class='column'>
+          <table class='table'>
+            <thead>
+              <td>Word</td>
+              <td>Frequency</td>
+            </thead>
+            {% for i in data %}
+              <tr>
+                <td>
+                  {{ i }}
+                </td>
+                <td>
+                  {{ data[i] }}
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+        <div class='column has-text-justified'>
+          <p>To the left are the results of {{title}}</p>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

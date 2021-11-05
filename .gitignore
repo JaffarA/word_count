@@ -130,3 +130,13 @@ dmypy.json
 
 # VSCODE
 .vscode/
+.vscode/*
+
+# mac dstore
+.DS_Store
+
+# pyenv version
+.python-version
+
+# hide docs
+src/

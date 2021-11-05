@@ -3,19 +3,19 @@ from sys import argv
 from jinja2 import Template
 
 # read blacklist file, split at '/n's and put into a list
-blacklist = [s.rsplit('\n') for s in open('blacklist.txt', 'r')]
+blacklist = [s.rsplit("\n") for s in open("blacklist.txt", "r")]
 
 # read jinja template
-html_template = Template(open('data-out.html').read())
+html_template = Template(open("data-out.html").read())
 
 # arguments can be passed at run like 'python main.py arg'
 # or can be input in program
 if len(argv) > 1:
-    f = open(f'src/{argv[1]}', 'r').read()
-    title = argv[1].split('.')[0]
+    f = open(f"src/{argv[1]}", "r").read()
+    title = argv[1].split(".")[0]
 else:
-    src, f, title = input('name: ')
-    f, title = open(f'src/{src}', 'r').read(), src.split('.')[0]
+    src, f, title = input("name: ")
+    f, title = open(f"src/{src}", "r").read(), src.split(".")[0]
 
 
 # counts all words in a string and returns a dictionary
@@ -40,22 +40,22 @@ def dict_to_dataframe(d):
     for item in d:
         words.append(item)
         frequency.append(d[item])
-    data = {'Words': words, 'Frequency': frequency}
+    data = {"Words": words, "Frequency": frequency}
     df = pd.DataFrame(data)
-    return df.sort_values(by=['Frequency'], ascending=False)
+    return df.sort_values(by=["Frequency"], ascending=False)
 
 
 # takes a dictionary and outputs it to a html file in the OUT/ directory
 # uses data-out.html template in root directory
 def dict_to_html(d):
-    filename = f'out/{title}-out.html'
+    filename = f"out/{title}-out.html"
     out = html_template.render(
         title=title,
-        data={k: v for k, v in sorted(
-            d.items(), key=lambda item: item[1], reverse=True
-            )}
+        data={
+            k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)
+        },
     )
-    f = open(filename, 'w')
+    f = open(filename, "w")
     f.write(out)
     f.close()
     return filename

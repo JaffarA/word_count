@@ -1,4 +1,3 @@
-import pandas as pd
 from sys import argv
 from jinja2 import Template
 
@@ -34,17 +33,6 @@ def count_words(str):
     return c
 
 
-# takes a dictionary and converts it into a pandas dataframe
-def dict_to_dataframe(d):
-    words, frequency = [], []
-    for item in d:
-        words.append(item)
-        frequency.append(d[item])
-    data = {"Words": words, "Frequency": frequency}
-    df = pd.DataFrame(data)
-    return df.sort_values(by=["Frequency"], ascending=False)
-
-
 # takes a dictionary and outputs it to a html file in the OUT/ directory
 # uses data-out.html template in root directory
 def dict_to_html(d):
@@ -64,9 +52,5 @@ def dict_to_html(d):
 # feel free to comment out lines if functionality is not required.
 # creates a dictionary containing all words present and their frequencies
 data = count_words(f)
-# takes a dictionary and returns a sorted (descending) pandas dataframe
-data_frame = dict_to_dataframe(data)
 # takes a dictionary and returns a html file with a table of values
 output_file = dict_to_html(data)
-
-print(data_frame)

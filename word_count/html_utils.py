@@ -1,10 +1,8 @@
-from jinja2 import Template
-
-# read jinja template
-default_template = Template(open("data-out.html").read())
+from .defaults import DEFAULT_OUT_DIR
+from .defaults import DEFAULT_JINJA_TEMPLATE
 
 
-def render_template(title, data, template=default_template):
+def render_template(title, data, template=DEFAULT_JINJA_TEMPLATE):
     return template.render(title=title, data=data)
 
 
@@ -15,4 +13,4 @@ def write_to_html_file(filename, data):
 
 
 def format_title_as_filename(title):
-    return f"out/{title}-out.html"
+    return f"{DEFAULT_OUT_DIR}/{title}-out.html"

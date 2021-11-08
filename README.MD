@@ -50,7 +50,8 @@ python word-count.py
 
 ...outputs files in the ```out/``` directory in the projects directory with the same name as the input file found in ```src/```.
 
-### note: some words appear to have only one sentence, this is because by default only the first sentence is displayed, click on the word hyperlink (in the word (total occurences) column) to expand/collapse.
+#### note: only the ```out/all_files-out.html``` output shows which documents the sentences came from, the example only has a single file shown as all the data came from the same file.
+#### note: some words appear to have only one sentence, this is because by default only the first sentence is displayed, click on the word hyperlink (in the word (total occurences) column) to expand/collapse.
 
 Light
 ![light](img/example-light.png)

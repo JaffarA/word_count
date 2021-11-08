@@ -1,12 +1,22 @@
 # word-counter
 
-word-counter is a Python program for counting words. 🔢
+word-counter is a Python program for counting words using NLTK. 🔢
+
+## Requirements
+
+Python >=3.7.1,<3.11
+
+Recommended version: 3.9.7
 
 ## Installation
 
 Install Python if you dont already have it
 
 [Python](https://www.python.org/downloads/)
+
+Install Poetry if you dont already have it
+
+[Poetry](https://python-poetry.org/docs/#installation)
 
 Clone the git repo
 
@@ -17,36 +27,28 @@ git clone https://github.com/JaffarA/word-count.git
 Install requirements
 
 ```bash
-pip install -r requirements.txt
+poetry install
 ```
 
 ## Usage
 
-You can use the program in two ways
-
-Supplying args via commandline
+Files are read from the src/ directory, all .txt files found in that directory will be parsed. Run the main program.
 
 ```bash
-python word-count.py <file>
-```
-
-e.g.
-
-```bash
-python word-count.py example.txt
-```
-
-OR
-
-Supplying args via in program input
-
-```bash
+# poetry run python word-count.py
+poetry shell
 python word-count.py
 ```
 
-...outputs a file in the ```out/``` folder in the projects directory with the same name as the input file (with '-out' appended).
+...outputs files in the ```out/``` folder in the projects directory with the same name as the input file (with '-out' appended).
 
-![looks like this](img/example.png)
+### note: some words appear to have only one sentence, this is because by default only the first sentence is displayed, click on the word hyperlink (in the word (total occurences) column) to expand/collapse.
+
+Light
+![light](img/example-light.png)
+
+Dark
+![dark](img/example-dark.png)
 
 ## Features
 

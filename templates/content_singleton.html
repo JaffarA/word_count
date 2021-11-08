@@ -1,0 +1,35 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Word (Total Occurences)</th>
+            <th scope="col">Sentences</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for word in words %}
+            <tr>
+                <td colspan="1">
+                    <a
+                        data-bs-toggle="collapse" href="#collapse{{ title|replace('.txt', '') }}{{ loop.index }}" role="button" aria-expanded="false" aria-controls="collapse{{ title|replace('.txt', '') }}{{ loop.index }}"
+                    >
+                        <span class="word-highlight">{{ word }}</span> ({{ words[word].frequency }})
+                    </a>
+                </td>
+                <td>
+                    <div 
+                        {% if loop.index0 == 0 %}
+                            class="collapse show"
+                        {% else %}
+                            class="collapse"
+                        {% endif %}
+                        id="collapse{{ title|replace('.txt', '') }}{{ loop.index }}"
+                    >
+                        {% for sentence in words[word].sentences %}
+                            <div>{{ sentence }}</div><br>
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

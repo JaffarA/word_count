@@ -1,5 +1,6 @@
 from .blacklist_utils import get_blacklist_as_list
 
+from sacremoses import MosesDetokenizer
 from nltk.corpus import stopwords
 from string import punctuation
 from jinja2 import Template
@@ -18,4 +19,13 @@ DEFAULT_WORD_BLACKLIST = array(
 
 DEFAULT_OUT_DIR = "./out"
 
-DEFAULT_JINJA_TEMPLATE = Template(open("data-out.html").read())
+DEFAULT_JINJA_TEMPLATE = Template(open("templates/base.html").read())
+DEFAULT_JINJA_TITLE = Template(open("templates/title.html").read())
+DEFAULT_JINJA_CONTENT = Template(open("templates/content.html").read())
+DEFAULT_JINJA_CONTENT_SINGLETON = Template(
+    open("templates/content_singleton.html").read()
+)
+
+DEFAULT_DETOKENIZER = MosesDetokenizer(lang="en")
+
+DEFAULT_MOST_COMMON_MAX = 100

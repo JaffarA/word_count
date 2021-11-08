@@ -14,7 +14,7 @@ Install Python if you dont already have it
 
 [Python](https://www.python.org/downloads/)
 
-Install Poetry if you dont already have it
+Install Poetry
 
 [Poetry](https://python-poetry.org/docs/#installation)
 
@@ -32,15 +32,23 @@ poetry install
 
 ## Usage
 
-Files are read from the src/ directory, all .txt files found in that directory will be parsed. Run the main program.
+Files are read from the ```src/``` directory, all ```.txt``` files found in that directory will be parsed. 
+
+Populate the ```src/``` directory with all your documents (```example.txt``` is provided)
+
+Run the main program.
 
 ```bash
-# poetry run python word-count.py
+# one liner
+poetry run python word-count.py
+
+## or
+# load venv
 poetry shell
 python word-count.py
 ```
 
-...outputs files in the ```out/``` folder in the projects directory with the same name as the input file (with '-out' appended).
+...outputs files in the ```out/``` directory in the projects directory with the same name as the input file found in ```src/```.
 
 ### note: some words appear to have only one sentence, this is because by default only the first sentence is displayed, click on the word hyperlink (in the word (total occurences) column) to expand/collapse.
 
@@ -54,7 +62,11 @@ Dark
 
 Blacklist
 
-A simple blacklist.txt file is available in the root directory, any text in this file will be ignored when counting words.
+A simple ```blacklist.txt``` file is available in the root directory, any text in this file will be ignored when counting words.
+
+word_count library
+
+All functions and methods called in ```word-count.py``` are available through ```word_count/*.py``` if you want to make any ammendments
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

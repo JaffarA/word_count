@@ -140,3 +140,6 @@ dmypy.json
 
 # hide docs
 src/
+
+# hide computed output
+out/*.html

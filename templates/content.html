@@ -1,0 +1,50 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Word (Total Occurences)</th>
+            <th scope="col">Documents</th>
+            <th scope="col">Sentences containing the word</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for word in words %}
+            <tr>
+                <td colspan="1">
+                    <a
+                        data-bs-toggle="collapse" href="#collapse{{ title|replace('.txt', '') }}{{ loop.index }}" role="button" aria-expanded="false" aria-controls="collapse{{ title|replace('.txt', '') }}{{ loop.index }}"
+                    >
+                        <span class="word-highlight">{{ word }}</span> ({{ words[word].frequency }})
+                    </a>
+                </td>
+                <td>
+                    <div>
+                        {% for document in words[word].documents %}
+                            <div>
+                                {{ document }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </td>
+                <td>
+                    <div class="first-sentence">{{ words[word].sentences[0] }}</div>
+                    <div 
+                        {% if loop.index0 == 0 %}
+                            class="collapse show"
+                        {% else %}
+                            class="collapse"
+                        {% endif %}
+                        id="collapse{{ title|replace('.txt', '') }}{{ loop.index }}"
+                    >
+                        {% for sentence in words[word].sentences %}
+                            {% if not loop.first %}
+                                <div>{{ sentence }}</div>{% if not loop.last %}<br>{% endif %}
+                            {% elif loop.first and not loop.last %}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

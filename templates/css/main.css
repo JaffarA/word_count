@@ -1,0 +1,18 @@
+.word-highlight {
+    background-color: #ffc107;
+    font-weight: bold;
+    padding: 0.2em 0.1em;
+    color: #1c1c1c;
+}
+
+html.dark a {
+    color: rgba(200, 20, 200, 1);
+    font-weight: bolder;
+    text-decoration-color: cornflowerblue;
+}
+
+html.light a {
+    color: rgba(200, 20, 200, 1);
+    font-weight: bolder;
+    text-decoration-color: deepskyblue;
+}

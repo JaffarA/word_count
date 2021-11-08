@@ -1,56 +1,78 @@
-from sys import argv
-from jinja2 import Template
+from word_count.nl_utils import get_src_corpus
+from word_count.nl_utils import detokenize_sentence
+from word_count.nl_utils import get_filtered_freq_dist
+from word_count.nl_utils import get_src_corpus_text
+from word_count.nl_utils import get_src_corpus_text_by_fileids
 
-# read blacklist file, split at '/n's and put into a list
-blacklist = [s.rsplit("\n") for s in open("blacklist.txt", "r")]
+from word_count.data_utils import sentences_list_to_df
+from word_count.data_utils import get_sentences_containing_word
 
-# read jinja template
-html_template = Template(open("data-out.html").read())
+from word_count.html_utils import render_and_write_to_html
+from word_count.html_utils import render_and_write_to_html_singleton
 
-# arguments can be passed at run like 'python main.py arg'
-# or can be input in program
-if len(argv) > 1:
-    f = open(f"src/{argv[1]}", "r").read()
-    title = argv[1].split(".")[0]
-else:
-    src, f, title = input("name: ")
-    f, title = open(f"src/{src}", "r").read(), src.split(".")[0]
+from word_count.defaults import DEFAULT_MOST_COMMON_MAX
 
+from re import sub
 
-# counts all words in a string and returns a dictionary
-def count_words(str):
-    all_words = str.split()
-    w, c = list(), dict()
-    for word in all_words:
-        if word.lower() in blacklist:
-            pass
-        else:
-            if word in w:
-                c[word] += 1
-            else:
-                w.append(word)
-                c[word] = 1
-    return c
+if __name__ == "__main__":
 
+    src_corpus = get_src_corpus()
 
-# takes a dictionary and outputs it to a html file in the OUT/ directory
-# uses data-out.html template in root directory
-def dict_to_html(d):
-    filename = f"out/{title}-out.html"
-    out = html_template.render(
-        title=title,
-        data={
-            k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)
-        },
+    file_ids = src_corpus.fileids()
+    file_info = {k: {} for k in file_ids}
+
+    # process each document individually
+    for file_id in file_ids:
+        file_name = file_id.replace(".txt", "")
+        text = get_src_corpus_text_by_fileids([file_id])
+        freq_dist = get_filtered_freq_dist(text)
+        sentences_df = sentences_list_to_df(src_corpus.sents(fileids=file_id))
+        for k, v in freq_dist.most_common(DEFAULT_MOST_COMMON_MAX):
+            sentences = get_sentences_containing_word(sentences_df, k)
+            file_info[file_id][k] = {
+                "frequency": v,
+                "sentences": [
+                    sub(
+                        fr"\b{k}\b",
+                        f"<span class='word-highlight'>{k}</span>",
+                        detokenize_sentence(sentence),
+                    )
+                    for sentence in sentences
+                ],
+            }
+
+        render_and_write_to_html_singleton(
+            file_id, file_info[file_id], len(file_info[file_id])
+        )
+
+    file_info["all_files"] = {}
+    text = get_src_corpus_text()
+    freq_dist = get_filtered_freq_dist(text)
+    sentences_df = sentences_list_to_df(src_corpus.sents())
+    for k, v in freq_dist.most_common(DEFAULT_MOST_COMMON_MAX):
+        sentences = get_sentences_containing_word(sentences_df, k)
+        file_info["all_files"][k] = {
+            "frequency": v,
+            "sentences": [
+                sub(
+                    fr"\b{k}\b",
+                    f"<span class='word-highlight'>{k}</span>",
+                    detokenize_sentence(sentence),
+                )
+                for sentence in sentences
+            ],
+            "documents": [],
+        }
+
+    for key in file_ids:
+        for word in file_info[key]:
+            if word in file_info["all_files"]:
+                if key not in file_info["all_files"][word]["documents"]:
+                    file_info["all_files"][word]["documents"].append(key)
+
+    # render the all_files page
+    render_and_write_to_html(
+        "all_files",
+        file_info["all_files"],
+        len(file_info["all_files"]),
     )
-    f = open(filename, "w")
-    f.write(out)
-    f.close()
-    return filename
-
-
-# feel free to comment out lines if functionality is not required.
-# creates a dictionary containing all words present and their frequencies
-data = count_words(f)
-# takes a dictionary and returns a html file with a table of values
-output_file = dict_to_html(data)
